@@ -207,6 +207,7 @@ wss.on('connection', (ws) => {
 });
 });
 
-server.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+// This replaces the duplicate PORT and the broken app.listen block
+server.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server is running on port ${PORT}`);
 });
