@@ -5,8 +5,7 @@ const url = require('url');
 const WebSocket = require('ws');
 
 const PORT = process.env.PORT || 3000;
-const DB_FILE = path.join(__dirname, 'users.json');
-const CHAT_FILE = path.join(__dirname, 'chatHistory.json');
+const DB_FILE = path.join(__dirname, 'myDataBase.json');
 
 // Load database
 function loadDB() {
@@ -15,7 +14,7 @@ function loadDB() {
         return JSON.parse(data);
     } catch (err) {
         console.log('Database file not found or invalid, initializing empty database.');
-        return { users: [], resetTokens: {} };
+        return { users: [], resetTokens: {}, chatHistory: [] };
     }
 }
 
@@ -28,33 +27,11 @@ function saveDB(data) {
     }
 }
 
-// Load chat history
-function loadChatHistory() {
-    try {
-        const data = fs.readFileSync(CHAT_FILE, 'utf8');
-        return JSON.parse(data);
-    } catch (err) {
-        console.log('Chat history file not found, initializing empty.');
-        return [];
-    }
-}
-
-// Save chat history
-function saveChatHistory(history) {
-    try {
-        fs.writeFileSync(CHAT_FILE, JSON.stringify(history, null, 2));
-    } catch (err) {
-        console.error('Error saving chat history:', err);
-    }
-}
-
 // Initialize database
 let db = loadDB();
 let users = db.users;
 let resetTokens = db.resetTokens;
-
-// Initialize chat history
-let chatHistory = loadChatHistory();
+let chatHistory = db.chatHistory;
 
 function parseBody(req, callback) {
     let body = '';
@@ -117,7 +94,7 @@ const server = http.createServer((req, res) => {
             }
             const newUser = { id: Date.now(), username: normalizedUsername, email: normalizedEmail, password };
             users.push(newUser);
-            saveDB({ users, resetTokens });
+            saveDB({ users, resetTokens, chatHistory });
             sendResponse(res, 201, { message: 'Account created successfully.', user: { id: newUser.id, username: newUser.username, email: newUser.email } });
         });
     } else if (pathname === '/api/login' && req.method === 'POST') {
@@ -140,7 +117,7 @@ const server = http.createServer((req, res) => {
             }
             const token = Math.floor(100000 + Math.random() * 900000).toString();
             resetTokens[email] = token;
-            saveDB({ users, resetTokens });
+            saveDB({ users, resetTokens, chatHistory });
             sendResponse(res, 200, { message: 'Reset token generated.', token });
         });
     } else if (pathname === '/api/reset' && req.method === 'POST') {
@@ -159,7 +136,7 @@ const server = http.createServer((req, res) => {
             }
             user.password = newPassword;
             delete resetTokens[email];
-            saveDB({ users, resetTokens });
+            saveDB({ users, resetTokens, chatHistory });
             sendResponse(res, 200, { message: 'Password reset successfully.' });
         });
     } else if (pathname === '/' || pathname === '/index.html') {
@@ -193,7 +170,7 @@ wss.on('connection', (ws) => {
                     timestamp: new Date().toISOString()
                 };
                 chatHistory.push(message);
-                saveChatHistory(chatHistory);
+                saveDB({ users, resetTokens, chatHistory });
                 // Broadcast to all clients
                 wss.clients.forEach(client => {
                     if (client.readyState === WebSocket.OPEN) {

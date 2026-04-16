@@ -1,0 +1,29 @@
+{
+  "users": [
+    {
+      "id": 1776242401595,
+      "username": "Gicano",
+      "email": "gicano@gmail.com",
+      "password": "123456"
+    },
+    {
+      "id": 1776248829735,
+      "username": "yawning",
+      "email": "yawning@gmail.com",
+      "password": "123456"
+    }
+  ],
+  "resetTokens": {},
+  "chatHistory": [
+    {
+      "user": "Gicano",
+      "message": "Welcome",
+      "timestamp": "2026-04-16T08:16:25.154Z"
+    },
+    {
+      "user": "Gicano",
+      "message": "Your free to communicate with everyone",
+      "timestamp": "2026-04-16T08:17:25.693Z"
+    }
+  ]
+}
