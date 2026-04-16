@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat Login & Support</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div class="app-wrapper">
+        <div class="card">
+            <div class="auth-grid" id="authArea">
+                <aside class="auth-sidebar">
+                    <h1>BSCS CHAT</h1>
+                    <p>Sign in or create an account to start chatting. Your conversation is protected and your forgot-password flow is ready with a reset token simulator.</p>
+                </aside>
+                <section class="auth-content">
+                    <div class="tab-nav">
+                        <button id="signinTab" class="active" type="button">Sign In</button>
+                        <button id="signupTab" type="button">Sign Up</button>
+                        <button id="forgotTab" type="button">Forgot Password</button>
+                    </div>
+                    <div id="signInForm">
+                        <h2 class="form-title">Sign In</h2>
+                        <div class="message" id="signInMessage"></div>
+                        <form id="formSignIn">
+                            <label>
+                                Username
+                                <input type="text" id="signinUsername" autocomplete="username" required />
+                            </label>
+                            <label>
+                                Password
+                                <input type="password" id="signinPassword" autocomplete="current-password" required />
+                            </label>
+                            <button class="button" type="submit">Sign In</button>
+                            <button type="button" class="link" id="toForgot">Forgot your password?</button>
+                        </form>
+                    </div>
+                    <div id="signUpForm" class="hidden">
+                        <h2 class="form-title">Create Account</h2>
+                        <div class="message" id="signUpMessage"></div>
+                        <form id="formSignUp">
+                            <label>
+                                Username
+                                <input type="text" id="signupUsername" autocomplete="username" required />
+                            </label>
+                            <label>
+                                Email
+                                <input type="email" id="signupEmail" autocomplete="email" required />
+                            </label>
+                            <label>
+                                Password
+                                <input type="password" id="signupPassword" autocomplete="new-password" required />
+                            </label>
+                            <label>
+                                Confirm Password
+                                <input type="password" id="signupConfirm" autocomplete="new-password" required />
+                            </label>
+                            <button class="button" type="submit">Create account</button>
+                        </form>
+                    </div>
+                    <div id="forgotForm" class="hidden">
+                        <h2 class="form-title">Forgot Password</h2>
+                        <div class="message" id="forgotMessage"></div>
+                        <form id="formForgot">
+                            <label>
+                                Registered Email
+                                <input type="email" id="forgotEmail" autocomplete="email" required />
+                            </label>
+                            <button class="button" type="submit">Send reset token</button>
+                        </form>
+                        <div id="resetSection" class="hidden">
+                            <label>
+                                Reset Token
+                                <input type="text" id="resetToken" required />
+                            </label>
+                            <label>
+                                New Password
+                                <input type="password" id="resetPassword" autocomplete="new-password" required />
+                            </label>
+                            <button class="button" id="resetPasswordButton" type="button">Reset password</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="chat-screen hidden" id="chatArea">
+                <div class="chat-panel">
+                    <div class="chat-header">
+                        <div class="chat-brand">
+                            <div class="avatar">C</div>
+                            <div class="chat-title">
+                                <h2>SCHOOL CHAT INFO</h2>
+                                <p>BSCS HUB</p>
+                            </div>
+                        </div>
+                        <div class="status-chip" id="chatStatus">Online</div>
+                    </div>
+                    <div class="chat-body" id="chatBody">
+                    </div>
+                    <div class="chat-footer">
+                        <div class="captcha-banner hidden" id="captchaBanner">
+                            <span>Audio captcha required after two messages.</span>
+                            <button class="button secondary" type="button" id="solveCaptchaButton">Solve now</button>
+                        </div>
+                        <form id="chatForm" class="chat-input-row">
+                            <input type="text" id="chatInput" placeholder="Type your message..." autocomplete="off" required />
+                            <button class="button" type="submit">Send</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-backdrop hidden" id="captchaModal">
+        <div class="modal">
+            <h2>Audio Captcha</h2>
+            <p>Listen to the audio and type the number you hear.</p>
+            <div>
+                <button class="button" id="playAudio">Play audio</button>
+                <span style="margin-left: 12px; color:#475569;">You must answer correctly to continue chatting.</span>
+            </div>
+            <label>
+                Your answer
+                <input type="text" id="captchaAnswer" autocomplete="off" placeholder="Type the number" />
+            </label>
+            <div class="message" id="captchaMessage"></div>
+            <div style="display:flex; gap:12px; justify-content:flex-end; margin-top:8px;">
+                <button class="button secondary" id="closeCaptcha" type="button">Cancel</button>
+                <button class="button" id="submitCaptcha" type="button">Submit answer</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-backdrop hidden" id="videoModal">
+        <div class="modal video-modal">
+            <div class="modal-header">
+                <h2>Unlocked Video</h2>
+                <button class="button secondary" id="closeVideoModal" type="button">Close</button>
+            </div>
+            <p>Nice work! Watch the unlocked video here.</p>
+            <video id="unlockVideo" controls>
+                <source src="video/Rickrolll.mp4" type="video/mp4" />
+                Your browser does not support HTML5 video.
+            </video>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

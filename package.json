@@ -1,0 +1,12 @@
+{
+  "name": "wed-site",
+  "version": "1.0.0",
+  "description": "Chat support website with authentication",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "ws": "^8.20.0"
+  }
+}
