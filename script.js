@@ -64,8 +64,9 @@ function showChatScreen() {
     authArea.classList.add('hidden');
     chatArea.classList.remove('hidden');
     chatInput.focus();
-    // Connect to WebSocket
-    ws = new WebSocket('ws://localhost:3000');
+    // Connect to WebSocket using the current host and protocol
+    const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+    ws = new WebSocket(`${wsProtocol}://${window.location.host}`);
     ws.onopen = () => {
         console.log('Connected to chat');
     };
